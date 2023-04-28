@@ -29,12 +29,25 @@ public class UserInfoController {
             userInfo.setWeight((float) 0);
             userInfo.setImg("_default");
             userInfo.setName("你好！健身人");
-            userInfo.setUser_id(uid);
+            userInfo.setUserId(uid);
             userInfoService.save(userInfo);
         }
 
         List<UserInfo> list = userInfoService.list(queryWrapper);
         return list;
+    }
+
+    @GetMapping("/updateUserInfo")
+    public Boolean updateUserInfo(@RequestParam String uid, String name, String img, Float height, Float weight){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(uid);
+        userInfo.setName(name);
+        userInfo.setImg(img);
+        userInfo.setHeight(height);
+        userInfo.setWeight(weight);
+
+        Boolean state = userInfoService.saveOrUpdate(userInfo);
+        return state;
     }
 
 }
