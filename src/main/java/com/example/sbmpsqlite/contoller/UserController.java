@@ -52,7 +52,11 @@ public class UserController {
         }
     }
 
-
-
+    @GetMapping("/count")
+    public int getCount(){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        int count = (int) userService.count(queryWrapper);
+        return count;
+    }
 
 }

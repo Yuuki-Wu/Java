@@ -1,5 +1,6 @@
 package com.example.sbmpsqlite.contoller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.sbmpsqlite.entity.User;
 import com.example.sbmpsqlite.entity.UserContact;
 import com.example.sbmpsqlite.service.UserContactService;
@@ -33,4 +34,10 @@ public class UserContactController {
         return list;
     }
 
+    @GetMapping("/count")
+    public int getCount(){
+        QueryWrapper<UserContact> queryWrapper = new QueryWrapper<>();
+        int count = (int) userContactService.count(queryWrapper.eq("state",0));
+        return count;
+    }
 }
