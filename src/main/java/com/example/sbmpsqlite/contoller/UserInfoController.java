@@ -27,7 +27,7 @@ public class UserInfoController {
             UserInfo userInfo = new UserInfo();
             userInfo.setHeight((float) 0);
             userInfo.setWeight((float) 0);
-            userInfo.setImg("_default");
+            userInfo.setImg("_default.png");
             userInfo.setName("你好！健身人");
             userInfo.setUserId(uid);
             userInfoService.save(userInfo);

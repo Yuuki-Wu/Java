@@ -17,13 +17,16 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/Login")
-    public Boolean getUser(@RequestParam String uid, String upd){
+    public Boolean getUser(@RequestParam String uid, String upd, String time){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .select("*")
                 .eq("user_id",uid)
                 .eq("user_password", upd);
         Integer count = Math.toIntExact(userService.count(queryWrapper));
+        User user = new User();
+        user.setUserLatestLoginTime(time);
+        userService.update(user, queryWrapper);
         if(count > 0){
             return true;
         } else {

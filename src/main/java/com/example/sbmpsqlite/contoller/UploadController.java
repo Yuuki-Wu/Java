@@ -32,4 +32,44 @@ public class UploadController {
             throw new RuntimeException(e);
         }
     }
+
+    @PostMapping(value = "/user/movementImg")
+    @ResponseBody
+    public void movementImgUpload(@RequestParam("file") MultipartFile file, String uid, String movementName, String position){
+        String fileName = file.getOriginalFilename();
+        String po;
+        po = getString(position);
+        String staticPath = "C:/Users/asus/Desktop/uniapp/demo2/src/main/resources/static/movement/" + po;
+        File tmp = new File(staticPath);
+        if(!tmp.exists()){
+            tmp.mkdirs();
+        }
+        int index = fileName.indexOf(".");
+        String name = uid + "_" + movementName + "." + fileName.substring(index + 1);
+        String resourcePath = staticPath + "/" + name;
+        File upFile = new File(resourcePath);
+        try {
+            file.transferTo(upFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static String getString(String position) {
+        String po;
+        if(position.equals("腿")){
+            po = "leg";
+        } else if(position.equals("胸")){
+            po = "chest";
+        } else if(position.equals("二头")){
+            po = "biceps";
+        } else if(position.equals("三头")){
+            po = "triceps";
+        } else if (position.equals("腹部")) {
+            po = "abs";
+        } else {
+            po = "back";
+        }
+        return po;
+    }
 }

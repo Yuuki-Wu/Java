@@ -14,6 +14,10 @@ public class User {
     @TableField("user_password")
     private String userPassword;
 
+
+    @TableField("user_latest_login_time")
+    private String userLatestLoginTime;
+
     public String getUserId() {
         return userId;
     }
@@ -28,5 +32,13 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public String getUserLatestLoginTime() {
+        return userLatestLoginTime;
+    }
+
+    public void setUserLatestLoginTime(String userLatestLoginTime) {
+        this.userLatestLoginTime = userLatestLoginTime;
     }
 }
