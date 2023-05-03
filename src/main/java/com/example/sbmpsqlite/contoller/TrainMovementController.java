@@ -1,10 +1,12 @@
 package com.example.sbmpsqlite.contoller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.sbmpsqlite.entity.TrainMovement;
 import com.example.sbmpsqlite.service.TrainMovementService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -23,6 +25,15 @@ public class TrainMovementController {
         trainMovement.setMovementFeeling(mfeeling);
         trainMovement.setMovementType(mtype);
         trainMovementService.save(trainMovement);
+    }
+
+    @GetMapping("/searchList")
+    public List<TrainMovement> searchList(@RequestParam String date,String uid){
+        QueryWrapper queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("movement_time", date);
+        queryWrapper.eq("user_id" ,uid);
+        List<TrainMovement> list = trainMovementService.list(queryWrapper);
+        return list;
     }
 
 }

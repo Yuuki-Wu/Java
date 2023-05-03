@@ -14,6 +14,8 @@ public class UserContact {
     @TableField("info")
     private String info;
 
+    @TableField("state")
+    private Integer state;
     public String getUserId() {
         return userId;
     }
@@ -36,5 +38,13 @@ public class UserContact {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

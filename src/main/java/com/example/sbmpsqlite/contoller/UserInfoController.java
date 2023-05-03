@@ -1,8 +1,15 @@
 package com.example.sbmpsqlite.contoller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.sbmpsqlite.entity.User;
+import com.example.sbmpsqlite.entity.UserContact;
 import com.example.sbmpsqlite.entity.UserInfo;
+import com.example.sbmpsqlite.entity.UserInfoJoin;
+import com.example.sbmpsqlite.mapper.UserInfoMapper;
 import com.example.sbmpsqlite.service.UserInfoService;
+import com.github.yulichang.query.MPJQueryWrapper;
+import com.github.yulichang.toolkit.JoinWrappers;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,6 +23,8 @@ public class UserInfoController {
     @Resource
     UserInfoService userInfoService;
 
+    @Resource
+    UserInfoMapper userInfoMapper;
     @GetMapping("/getUserInfo")
     public List<UserInfo> getUserInfo(@RequestParam String uid){
         QueryWrapper queryWrapper = new QueryWrapper<>();
@@ -50,4 +59,15 @@ public class UserInfoController {
         return state;
     }
 
+    @GetMapping("/getUserAllInfo")
+    public List getAll(){
+        MPJLambdaWrapper<UserInfo> wrapper = JoinWrappers.lambda(UserInfo.class)
+                .selectAll(UserInfo.class)
+                .select(User::getUserRegisterTime)
+                .select(UserContact::getState, UserContact::getInfo)
+                .leftJoin(User.class, User::getUserId, UserInfo::getUserId)
+                .rightJoin(UserContact.class, UserContact::getUserId, UserInfo::getUserId);
+        List list = userInfoMapper.selectJoinList(UserInfoJoin.class, wrapper);
+        return list;
+    }
 }
